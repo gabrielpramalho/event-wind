@@ -2,9 +2,9 @@
 
 ### Authentication
 
-- [ ] it should be able to register with login and password
-- [ ] it should be able to authentication with login and password
-- [ ] it should be able to reset password by email
+- [x] it should be able to register with login and password
+- [x] it should be able to authentication with login and password
+- [x] it should be able to reset password by email
 
 ### Event
 
@@ -35,3 +35,16 @@
 ### Giveaway
 
 - [ ] it should be able to create a giveaway from an event
+
+
+#
+
+## Future
+
+- [ ] it should be able to authenticate with Google Account
+
+
+
+### Annotations
+- We can improve way to recover a password
+
