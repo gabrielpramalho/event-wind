@@ -15,8 +15,13 @@ model User {
   avatarUrl    String?  @map("avatar_url")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
-  Token        Token[]
-  Event        Event[]
+
+  tokens                 Token[]
+  events                 Event[]
+  feedbacks              Feedback[]
+  giveaways              Giveaway[]
+  event_participant_on   EventParticipant[]
+  session_participant_on SessionParticipant[]
 
   @@map("users")
 }
@@ -37,25 +42,32 @@ model Token {
 }
 
 model Event {
-  id        String   @id @default(uuid())
-  title     String
-  slug      String   @unique
-  photoUrl  String?  @map("photo_url")
-  capacity  Int
-  dateBegin DateTime
-  dateEnd   DateTime
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  photoUrl    String?  @map("photo_url")
+  capacity    Int
+  price       String
+  dateBegin   DateTime
+  dateEnd     DateTime
+  hasSessions Boolean
+  hasGiveaway Boolean
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
-  author   User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId String     @map("author_id")
-  Sessions Sessions[]
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String @map("author_id")
+
+  sessions     Session[]
+  feedbacks    Feedback[]
+  Giveaway     Giveaway[]
+  participants EventParticipant[]
 
   @@index([slug])
   @@map("events")
 }
 
-model Sessions {
+model Session {
   id        String   @id @default(uuid())
   title     String
   slug      String   @unique
@@ -65,8 +77,65 @@ model Sessions {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  eventId String @map("event_id")
+  event        Event                @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId      String               @map("event_id")
+  participants SessionParticipant[]
 
   @@map("sessions")
+}
+
+model EventParticipant {
+  id String @id @default(uuid())
+
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@unique([userId, eventId])
+  @@map("event_participants")
+}
+
+model SessionParticipant {
+  id String @id @default(uuid())
+
+  session   Session @relation(fields: [sessionId], references: [id])
+  sessionId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@unique([userId, sessionId])
+  @@map("session_participants")
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String @map("author_id")
+
+  event Event @relation(fields: [eventId], references: [id])
+
+  eventId String @map("event_id")
+
+  @@map("feedbacks")
+}
+
+model Giveaway {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@unique([userId, eventId])
+  @@map("giveaways")
 }
