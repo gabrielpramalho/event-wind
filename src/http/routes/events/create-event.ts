@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
@@ -58,6 +59,24 @@ export async function createEvent(app: FastifyInstance) {
 
         if (!user) {
           throw new BadRequestError('User not found.')
+        }
+
+        const dateEndIsBeforeDateBegin = dayjs(dateEnd).isBefore(dateBegin)
+
+        if (dateEndIsBeforeDateBegin) {
+          throw new BadRequestError('Date is invalid')
+        }
+
+        const dateBeginIsInvalid = dayjs(dateBegin).isBefore()
+
+        if (dateBeginIsInvalid) {
+          throw new BadRequestError('Date is invalid')
+        }
+
+        const dateEndIsInvalid = dayjs(dateEnd).isBefore()
+
+        if (dateEndIsInvalid) {
+          throw new BadRequestError('Date is invalid')
         }
 
         const slug = createSlug(title)
