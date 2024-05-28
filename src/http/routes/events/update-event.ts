@@ -70,6 +70,24 @@ export async function updateEvent(app: FastifyInstance) {
           throw new BadRequestError('This event is already ended!')
         }
 
+        const dateEndIsBeforeDateBegin = dayjs(dateEnd).isBefore(dateBegin)
+
+        if (dateEndIsBeforeDateBegin) {
+          throw new BadRequestError('Date is invalid')
+        }
+
+        const dateBeginIsInvalid = dayjs(dateBegin).isBefore()
+
+        if (dateBeginIsInvalid) {
+          throw new BadRequestError('Date is invalid')
+        }
+
+        const dateEndIsInvalid = dayjs(dateEnd).isBefore()
+
+        if (dateEndIsInvalid) {
+          throw new BadRequestError('Date is invalid')
+        }
+
         await prisma.event.update({
           where: {
             id: eventId,
