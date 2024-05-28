@@ -47,7 +47,7 @@ model Event {
   slug        String   @unique
   photoUrl    String?  @map("photo_url")
   capacity    Int
-  price       String
+  price       String?
   dateBegin   DateTime
   dateEnd     DateTime
   hasSessions Boolean

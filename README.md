@@ -8,12 +8,13 @@
 
 ### Event
 
-- [ ] it should be able to create an event
-- [ ] it should be able to decide if will have sessions
-- [ ] it should be able to get an event
+- [x] it should be able to create an event
+- [x] it should be able to decide if will have sessions
+- [x] it should be able to get an event
 - [ ] it should be able to update an event
 - [ ] it should be able to delete an event
-- [ ] it should be able to set a number of participants
+- [ ] it should be able to get all events
+- [x] it should be able to set a number of participants
 - [ ] it should be able to send a report on end of event
 - [ ] it should be able to give feedback on an event
 - [ ] it should be able to set a giveaway

@@ -17,6 +17,9 @@ import { createAccount } from './routes/auth/create-account'
 import { getProfile } from './routes/auth/get-profile'
 import { requestPasswordRecover } from './routes/auth/request-password-recover'
 import { resetPassword } from './routes/auth/reset-password'
+import { createEvent } from './routes/events/create-event'
+import { getEvent } from './routes/events/get-event'
+import { updateEvent } from './routes/events/update-event'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -60,6 +63,10 @@ app.register(authenticateWithPassword)
 app.register(getProfile)
 app.register(requestPasswordRecover)
 app.register(resetPassword)
+
+app.register(createEvent)
+app.register(getEvent)
+app.register(updateEvent)
 
 app.listen({ port: env.PORT }).then(() => {
   console.log(`HTTP running 🔥 at http://localhost:${env.PORT}`)
